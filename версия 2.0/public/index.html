@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Город без сюрпризов — Красноярск</title>
+
+    <!-- Подключаем стили и скрипты 2GIS MapGL асинхронно -->
+    <link
+      rel="stylesheet"
+      href="https://mapgl.2gis.com/api/js/v1.0.0/mapgl.css"
+    />
+    <script
+      src="https://mapgl.2gis.com/api/js/v1.0.0/mapgl.js"
+      async
+      defer
+    ></script>
+
+    <style>
+      /* === Яндекс.Карты (если ещё используются) === */
+      .ymaps-2-1-79-map {
+        width: 100%;
+        height: 100%;
+        border-radius: 0.5rem;
+      }
+      .ymaps-2-1-79-balloon__content {
+        padding: 10px 15px;
+        background-color: #1a1f2c !important;
+        color: #e2e2e2 !important;
+      }
+      .ymaps-2-1-79-balloon__close + .ymaps-2-1-79-balloon__content {
+        margin-right: 15px;
+      }
+      .ymaps-2-1-79-balloon,
+      .ymaps-2-1-79-balloon__tail {
+        background-color: #1a1f2c !important;
+        color: #e2e2e2 !important;
+      }
+      .ymaps-2-1-79-balloon a {
+        color: #4a9eff !important;
+      }
+      .ymaps-2-1-79-balloon p {
+        color: #e2e2e2 !important;
+      }
+
+      /* === Список «Последние события» === */
+      #events {
+        max-width: 600px;
+        margin: 2rem auto;
+        color: #e2e2e2;
+        font-family: sans-serif;
+      }
+      #events h2 {
+        font-size: 1.75rem;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+      #events ul {
+        list-style: none;
+        padding: 0;
+      }
+      #events li {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      #events li:last-child {
+        border-bottom: none;
+      }
+      #events li .date {
+        font-weight: bold;
+        margin-right: 0.5rem;
+      }
+      #events li .title {
+        display: inline-block;
+        margin-top: 0.25rem;
+        color: #ffffff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- React root -->
+    <div id="root"></div>
+
+    <!-- блок «Последние события» (Flask) -->
+    <div id="events">
+      <h2>Последние события</h2>
+      <ul id="events-list">
+        <li>Загрузка…</li>
+      </ul>
+    </div>
+
+    <!-- точка входа React/Vite -->
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- скрипт для списка событий из Flask -->
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        const API = 'http://127.0.0.1:8000/api/news';
+        fetch(API)
+          .then(res => {
+            if (!res.ok) throw new Error(res.statusText);
+            return res.json();
+          })
+          .then(json => {
+            const events = json.data || [];
+            const list = document.getElementById('events-list');
+            list.innerHTML = '';
+            if (!events.length) {
+              list.innerHTML = '<li>Нет данных для отображения</li>';
+              return;
+            }
+            events.forEach(ev => {
+              const li = document.createElement('li');
+              li.innerHTML = `
+                <span class="date">${ev.date}</span>
+                <span class="type">[${ev.type}]</span><br/>
+                <div class="title">${ev.title}</div>
+              `;
+              list.append(li);
+            });
+          })
+          .catch(err => {
+            console.error(err);
+            document.getElementById('events-list').innerHTML =
+              '<li>Не удалось загрузить события</li>';
+          });
+      });
+    </script>
+  </body>
+</html>

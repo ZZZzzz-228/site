@@ -1,0 +1,215 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Цветовая схема браузера */
+html {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
+
+@layer base {
+  /* Переменные светлой темы (по умолчанию) */
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 220 13% 9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 13% 9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 13% 9%;
+
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 229 11% 30%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 229 11% 95%;
+    --muted-foreground: 220 13% 30%;
+
+    --accent: 229 11% 85%;
+    --accent-foreground: 220 13% 9%;
+
+    --destructive: 0 62.8% 80%;
+    --destructive-foreground: 0 0% 10%;
+
+    --border: 229 11% 90%;
+    --input: 229 11% 90%;
+    --ring: 217.2 91.2% 59.8%;
+
+    --radius: 1rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 220 13% 9%;
+    --sidebar-primary: 217.2 91.2% 59.8%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 229 11% 85%;
+    --sidebar-accent-foreground: 220 13% 9%;
+    --sidebar-border: 229 11% 90%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --utility-water: 218 82% 51%;
+    --utility-electricity: 42 97% 50%;
+    --utility-heat: 4 90% 58%;
+    --utility-gas: 142 51% 43%;
+    --utility-internet: 291 71% 42%;
+  }
+
+  /* Переменные тёмной темы */
+  html.dark {
+    --background: 228 13% 9%;
+    --foreground: 220 13% 91%;
+
+    --card: 228 13% 13%;
+    --card-foreground: 220 13% 91%;
+
+    --popover: 228 13% 13%;
+    --popover-foreground: 220 13% 91%;
+
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 229 11% 30%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 229 11% 15%;
+    --muted-foreground: 220 13% 70%;
+
+    --accent: 229 11% 20%;
+    --accent-foreground: 220 13% 91%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 229 11% 20%;
+    --input: 229 11% 20%;
+    --ring: 217.2 91.2% 59.8%;
+
+    --radius: 1rem;
+
+    --sidebar-background: 228 13% 13%;
+    --sidebar-foreground: 220 13% 91%;
+    --sidebar-primary: 217.2 91.2% 59.8%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 229 11% 20%;
+    --sidebar-accent-foreground: 220 13% 91%;
+    --sidebar-border: 229 11% 20%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --utility-water: 218 82% 51%;
+    --utility-electricity: 42 97% 50%;
+    --utility-heat: 4 90% 58%;
+    --utility-gas: 142 51% 43%;
+    --utility-internet: 291 71% 42%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border selection:bg-primary/20 selection:text-primary;
+  }
+
+  body {
+    @apply bg-background text-foreground min-h-screen;
+    background-image:
+      radial-gradient(at 20% 25%, hsla(217,91%,60%,0.10) 0px, transparent 50%),
+      radial-gradient(at 80% 80%, hsla(262,91%,60%,0.15) 0px, transparent 50%);
+    background-attachment: fixed;
+  }
+}
+
+/* Custom Scrollbar и анимации */
+@layer utilities {
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 6px; height: 6px;
+  }
+  .scrollbar-custom::-webkit-scrollbar-track {
+    background: rgba(30,41,59,0.2); border-radius: 100px;
+  }
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    background: rgba(59,130,246,0.5); border-radius: 100px;
+  }
+  .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background: rgba(59,130,246,0.7);
+  }
+
+  @keyframes float { 0%{transform:translateY(0)}50%{transform:translateY(-10px)}100%{transform:translateY(0)} }
+  @keyframes pulse-soft { 0%{opacity:.9}50%{opacity:1}100%{opacity:.9} }
+  @keyframes glow { 0%{box-shadow:0 0 5px rgba(66,153,225,0.5)}50%{box-shadow:0 0 20px rgba(66,153,225,0.8)}100%{box-shadow:0 0 5px rgba(66,153,225,0.5)} }
+  @keyframes shimmer { 0%{background-position:-200% 0}100%{background-position:200% 0} }
+
+  .animate-float { animation: float 3s ease-in-out infinite }
+  .animate-pulse-soft { animation: pulse-soft 2s ease-in-out infinite }
+  .animate-glow { animation: glow 2s ease-in-out infinite }
+}
+
+/* Карточки, градиенты и кнопка Telegram */
+.glass-card { @apply bg-card/40 backdrop-blur-lg border border-white/10 shadow-lg }
+.neo-card { @apply bg-card/80 backdrop-blur-xl border border-white/5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] }
+.gradient-text { @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 }
+.telegram-btn {
+  background: linear-gradient(45deg,#2b5876 0%,#4e4376 100%);
+  border:1px solid rgba(255,255,255,0.1);
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+  min-width:220px;
+}
+.telegram-btn:hover:not(:disabled) {
+  transform:translateY(-2px);
+  box-shadow:0 8px 25px rgba(43,88,118,0.3);
+}
+.telegram-btn:disabled { cursor:wait }
+
+@keyframes telegram-btn {0%{width:auto}10%,90%{width:56px}100%{width:auto}}
+@keyframes telegram-text {0%{opacity:1;transform:scale(1)}10%,90%{opacity:0;transform:scale(0.5)}100%{opacity:1;transform:scale(1)}}
+@keyframes telegram-check {0%,10%{opacity:0;transform:scale(0.5)}50%{opacity:1;transform:scale(1.2)}55%{transform:scale(1)}90%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(0.5)}}
+
+.animate-telegram-btn   { animation: telegram-btn 2s ease-in-out }
+.animate-telegram-text  { animation: telegram-text 2s ease-in-out }
+.animate-telegram-check { animation: telegram-check 2s ease-in-out }
+
+/* =========================================== */
+/* Патчи для светлой темы, чтобы элементы не «смывались» */
+/* =========================================== */
+html:not(.dark) .gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600;
+}
+html:not(.dark) .text-blue-100 {
+  @apply text-primary;
+}
+html:not(.dark) .text-gray-300,
+html:not(.dark) .text-gray-400 {
+  @apply text-gray-600;
+}
+html:not(.dark) .text-gray-200 {
+  @apply text-gray-700; /* для «Начало», «Конец», «Район» */
+}
+html:not(.dark) .neo-card {
+  border: 1px solid rgba(0,0,0,0.05);
+}
+html:not(.dark) .glass-card {
+  border: 1px solid rgba(0,0,0,0.1);
+}
+/* Лёгкий светлый вариант кнопки Telegram */
+html:not(.dark) .telegram-btn {
+  background: linear-gradient(
+    45deg,
+    rgba(43,88,118,0.3) 0%,
+    rgba(78,67,118,0.3) 100%
+  );
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+html:not(.dark) .telegram-btn:hover:not(:disabled) {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  transform: translateY(-1px);
+}
+/* Патч: в светлой теме делаем заголовок и основной текст карточек полностью чёрными */
+html:not(.dark) .neo-card h3,
+html:not(.dark) .neo-card p,
+html:not(.dark) .neo-card span,
+html:not(.dark) .neo-card strong {
+  @apply text-black;
+}
